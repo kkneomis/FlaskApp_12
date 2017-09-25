@@ -6,17 +6,42 @@
 </head>
 <body>
 
-    <ul>
-    {% for post in posts %}
-        <li>{{ post.content }} - {{ post.category.name }}</li>
-    {% endfor %}
-    </ul>
+
+{% for post in posts %}
+    <div >
+        <h3>{{ post.content }} --
+            <small>
+                {% for tag in post.tags %}
+                    {{ tag.name }} /
+                {% endfor %}
+            </small>
+        </h3>
+
+
+        <form method="POST" action="/addtags" >
+            <select multiple name="tags">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.name }}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" value="{{ post.id }}" name="post">
+            <input type="submit" value="Submit">
+        </form>
+
+    </div>
+{% endfor %}
+
 
 
     <h3>Add post</h3>
     <form method="POST" action="/addpost" >
         <textarea rows="3"  placeholder="What's on your mind?" name="content"></textarea>
-        <input type="text" name="category" placeholder="Category Name" required="true">
+        <input type="submit" value="Submit">
+    </form>
+
+    <h3>Add category</h3>
+    <form method="POST" action="/addcategory" >
+        <input type="text" name="name" placeholder="Category name">
         <input type="submit" value="Submit">
     </form>
 
